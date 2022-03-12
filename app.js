@@ -21,35 +21,41 @@ formAdd.addEventListener("click", (e) => {
   const author = document.querySelector("#author").value;
   const pages = document.querySelector("#pages").value;
   const read = document.querySelector("#read");
-  const book = new Book(title, author, pages, read.checked);
-  myLibrary.push(book);
-  const bookDiv = document.createElement("div");
-  const titleEl = document.createElement("p");
-  titleEl.textContent = title;
-  bookDiv.appendChild(titleEl);
-  const authorEl = document.createElement("p");
-  authorEl.textContent = author;
-  bookDiv.appendChild(authorEl);
-  const pagesEl = document.createElement("p");
-  pagesEl.textContent = pages;
-  bookDiv.appendChild(pagesEl);
-  const statusEl = document.createElement("p");
-  statusEl.classList.add("status");
-  statusEl.textContent = "Read?: " + read.checked;
-  bookDiv.appendChild(statusEl);
-  const removeBtn = document.createElement("button");
-  removeBtn.addEventListener("click", (e) => {
-    removeBook(e.target.parentNode.childNodes[0], myLibrary);
-    console.log(myLibrary);
-  });
-  removeBtn.textContent = "remove";
-  removeBtn.classList.add("remove");
-  bookDiv.appendChild(removeBtn);
-  const readBtn = document.createElement("button");
-  readBtn.textContent = "read";
-  readBtn.classList.add("read");
-  bookDiv.appendChild(readBtn);
-  bookContainer.appendChild(bookDiv);
+  if (!title || !author || !pages) {
+    alert("Please fill all required fields");
+  } else {
+    form.style.display = "none";
+    form.reset();
+    const book = new Book(title, author, pages, read.checked);
+    myLibrary.push(book);
+    const bookDiv = document.createElement("div");
+    const titleEl = document.createElement("p");
+    titleEl.textContent = title;
+    bookDiv.appendChild(titleEl);
+    const authorEl = document.createElement("p");
+    authorEl.textContent = author;
+    bookDiv.appendChild(authorEl);
+    const pagesEl = document.createElement("p");
+    pagesEl.textContent = pages;
+    bookDiv.appendChild(pagesEl);
+    const statusEl = document.createElement("p");
+    statusEl.classList.add("status");
+    statusEl.textContent = "Read?: " + read.checked;
+    bookDiv.appendChild(statusEl);
+    const removeBtn = document.createElement("button");
+    removeBtn.addEventListener("click", (e) => {
+      removeBook(e.target.parentNode.childNodes[0], myLibrary);
+      console.log(myLibrary);
+    });
+    removeBtn.textContent = "remove";
+    removeBtn.classList.add("remove");
+    bookDiv.appendChild(removeBtn);
+    const readBtn = document.createElement("button");
+    readBtn.textContent = "read";
+    readBtn.classList.add("read");
+    bookDiv.appendChild(readBtn);
+    bookContainer.appendChild(bookDiv);
+  }
 });
 
 // To do
