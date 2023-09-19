@@ -10,14 +10,16 @@ const myLibrary = [
   { title: '7 habits of highly effective people', author: 'Pioter', pages: 381, read: false },
 ];
 
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.info = () => {
-    `This is ${title} book written by ${author}, it has ${pages} pages, ${read}`;
-  };
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
+  info() {
+    `This is ${this.title} book written by ${this.author}, it has ${this.pages} pages, ${this.read}`;
+  }
 }
 
 const handleBookAdd = (e) => {
