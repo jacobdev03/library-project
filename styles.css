@@ -1,21 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 * {
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
   background-color: bisque;
 }
 
+.form-wrapper {
+  margin: 5% 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-container {
+  max-width: 1280px;
+  margin: 3rem auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 50px;
+}
+
+.book-card {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(255, 255, 255, 0.774);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  padding: 15px;
+}
+
+.book-card h3 {
+  font-size: 38px;
+}
+
+.book-card p {
+  font-size: 24px;
+  margin: 5px 0;
+}
+
 .addBookForm {
+  position: absolute;
+  top: 200px;
+  justify-content: space-around;
+  border-radius: 25px;
+  padding: 25px;
+  background-color: white;
+  width: 75%;
+  text-transform: uppercase;
   display: none;
-  position: fixed;
-  left: 0;
-  top: 25%;
-  right: 0;
   flex-direction: column;
   align-items: center;
+}
+
+.addBookForm input {
+  margin: 10px 0;
+  height: 3em;
+  width: 20em;
+  border: 1px solid lightgrey;
+}
+
+.addBookForm label {
+  font-size: 1.1em;
+  margin: 10px 0;
+  color: #000;
+  font-weight: 600;
 }
 
 .btn-container {
@@ -25,11 +85,12 @@ body {
 }
 
 .addBookBtn {
-  padding: 1.3em 3em;
-  font-size: 12px;
+  padding: 1em 2em;
+  font-size: 18px;
+
   text-transform: uppercase;
   letter-spacing: 2.5px;
-  font-weight: 500;
+  font-weight: 700;
   color: #000;
   background-color: #fff;
   border: none;
@@ -47,17 +108,35 @@ body {
   transform: translateY(-7px);
 }
 
-.addBookForm > input {
-  padding: 5px;
-  width: 100px;
-}
-
-.addBookForm > label {
-  padding: 5px;
-}
-
 .btn {
-  margin: 5px;
+  margin: 10px;
+  padding: 1.3em 3em;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 700;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.remove:hover {
+  background-color: red;
+  box-shadow: 0px 5px 20px rgb(255, 103, 103);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.read:hover {
+  background-color: green;
+  box-shadow: 0px 5px 20px rgb(63, 153, 63);
+  color: #fff;
+  transform: translateY(-2px);
 }
 
 .logo {
@@ -65,7 +144,7 @@ body {
 }
 
 .footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   height: 60px; /* Height of the footer */
@@ -83,8 +162,21 @@ body {
   margin: 10px;
 }
 
+.close-form {
+  align-self: flex-end;
+  border: none;
+
+  border-radius: 50%;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-weight: 900;
+  padding: 20px;
+}
+
 #form-add-btn {
-  padding: 0.9em 1.5em;
+  width: 15em;
+  margin: 1em 0;
+  padding: 1.5em 1.5em;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
@@ -97,4 +189,24 @@ body {
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
+}
+
+#form-add-btn:hover {
+  background-color: #2ee59d;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+@media (min-width: 1200px) {
+  .addBookForm {
+    width: 25%;
+    height: 60vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .book-container {
+    grid-template-columns: 1fr;
+  }
 }
