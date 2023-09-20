@@ -1,14 +1,8 @@
-const body = document.querySelector('body');
 const bookContainer = document.querySelector('.book-container');
 const addBookBtn = document.querySelector('.addBookBtn');
 const form = document.querySelector('.addBookForm');
 const formAdd = document.querySelector('#form-add-btn');
 const closeFormBtn = document.querySelector('.close-form');
-const myLibrary = [
-  { title: '1984', author: 'George Orwell', pages: 300, read: true },
-  { title: 'Harry Potter', author: 'J.K Rowling', pages: 317, read: true },
-  { title: '7 habits of highly effective people', author: 'Pioter', pages: 381, read: false },
-];
 
 class Book {
   constructor(title, author, pages, read) {
@@ -17,10 +11,45 @@ class Book {
     this.pages = pages;
     this.read = read;
   }
-  info() {
+  get info() {
     `This is ${this.title} book written by ${this.author}, it has ${this.pages} pages, ${this.read}`;
   }
 }
+
+class Library {
+  constructor() {
+    this.books = [];
+  }
+
+  get books() {
+    return this._books;
+  }
+
+  set books(books) {
+    this._books = books;
+  }
+
+  addToLibrary(book) {
+    if (this.books.includes(book)) {
+      return;
+    }
+    this.books.push(book);
+  }
+
+  getBook(title) {
+    return this.books.find((book) => book.title === title);
+  }
+
+  checkBookInLibrary(newBook) {
+    return this.books.some((book) => book.title === newBook.title);
+  }
+
+  deleteFromLibrary(id) {
+    this.books = this.books.filter((book) => this.books.indexOf(book) != id);
+  }
+}
+
+const myLibrary = new Library();
 
 const handleBookAdd = (e) => {
   e.preventDefault();
@@ -35,23 +64,22 @@ const handleBookAdd = (e) => {
   form.style.display = 'none';
   form.reset();
   const book = new Book(title, author, pages, read);
-  console.log(read.value);
-  myLibrary.push(book);
-
-  displayBooks(myLibrary);
+  if (myLibrary.checkBookInLibrary(book)) {
+    alert('This book already exists in library!');
+    return;
+  }
+  myLibrary.addToLibrary(book);
+  displayBooks(myLibrary.books);
 };
 
-const handleBookRemove = (title, array) => {
-  let index = array.findIndex((el) => el.title === title.textContent);
-  array.splice(index, 1);
-  title.parentNode.remove();
+const handleBookRemove = (id) => {
+  console.log(id);
+  myLibrary.deleteFromLibrary(id);
 };
 
-const displayBooks = (library) => {
-  bookContainer.innerHTML = '';
-  library.forEach((book, index) => {
-    const bookDiv = document.createElement('div');
-    bookDiv.innerHTML = `
+const createBookCard = (book, index) => {
+  const bookDiv = document.createElement('div');
+  bookDiv.innerHTML = `
 
         <h3 class='title'>${book.title}</h3>
         <p>${book.author}</p>
@@ -59,36 +87,41 @@ const displayBooks = (library) => {
         <p class='status'>Read?: ${book.read}</p>
       `;
 
-    bookDiv.classList.add('book-card');
-    bookDiv.id = index;
+  bookDiv.classList.add('book-card');
+  bookDiv.id = index;
 
-    const removeBtn = document.createElement('button');
-    const readBtn = document.createElement('button');
+  const removeBtn = document.createElement('button');
+  const readBtn = document.createElement('button');
 
-    removeBtn.addEventListener('click', (e) => {
-      handleBookRemove(e.target.parentNode.childNodes[0], myLibrary);
-      console.log(myLibrary);
-    });
+  removeBtn.addEventListener('click', (e) => {
+    handleBookRemove(e.target.parentNode.id, myLibrary);
+    e.target.parentNode.remove();
+    displayBooks(myLibrary.books);
+  });
 
-    readBtn.addEventListener('click', (e) => {
-      let readValue = myLibrary[e.target.parentNode.id].read;
-      myLibrary[e.target.parentNode.id].read = readValue === true ? false : true;
+  readBtn.addEventListener('click', (e) => {
+    let readValue = myLibrary.books[e.target.parentNode.id].read;
+    myLibrary.books[e.target.parentNode.id].read = !readValue;
+    displayBooks(myLibrary.books);
+  });
 
-      displayBooks(myLibrary);
-    });
+  readBtn.textContent = 'read';
+  readBtn.classList.add('btn', 'read');
+  removeBtn.textContent = 'remove';
+  removeBtn.classList.add('btn', 'remove');
+  bookDiv.appendChild(removeBtn);
+  bookDiv.appendChild(readBtn);
+  bookContainer.appendChild(bookDiv);
+};
 
-    readBtn.textContent = 'read';
-    readBtn.classList.add('btn', 'read');
-    removeBtn.textContent = 'remove';
-    removeBtn.classList.add('btn', 'remove');
-    bookDiv.appendChild(removeBtn);
-    bookDiv.appendChild(readBtn);
-    bookContainer.appendChild(bookDiv);
+const displayBooks = (library) => {
+  bookContainer.innerHTML = '';
+  library.forEach((book, index) => {
+    createBookCard(book, index);
   });
 };
 
-displayBooks(myLibrary);
-
+displayBooks(myLibrary.books);
 formAdd.addEventListener('click', handleBookAdd);
 addBookBtn.addEventListener('click', () => (form.style.display = 'flex'));
 closeFormBtn.addEventListener('click', () => (form.style.display = 'none'));
